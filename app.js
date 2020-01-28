@@ -3,10 +3,9 @@ import morgan from "morgan";
 import helmet from "helmet";
 import cookieParser from "cookie-parser";
 import bodyParser from "body-parser";
+import { userRouter } from "./router"
 
 const app = express();
-const PORT = 4000;
-const handleListen = () => console.log(`✅ 서버 연결 완료 http://localhost:${PORT}`);
 
 const handleHome = (req,res) => res.send("hihi");
 
@@ -23,5 +22,7 @@ app.use(morgan("dev"));
 //해당 URL이 요청되고 해당하는 함수들이 호출된다. 
 app.get("/", handleHome);
 app.get("/profile",handleProfile);
+// 라우터를 이용한 URL쪼개기
+app.get("/user", userRouter);
 
-app.listen(PORT, handleListen);
+export default app;
