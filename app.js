@@ -3,13 +3,12 @@ import morgan from "morgan";
 import helmet from "helmet";
 import cookieParser from "cookie-parser";
 import bodyParser from "body-parser";
-import { userRouter } from "./router"
+import userRouter from "./routers/userRouter";
+import videoRouter from "./routers/videoRouter";
+import globalRouter from "./routers/globalRouter";
 
 const app = express();
 
-const handleHome = (req,res) => res.send("hihi");
-
-const handleProfile = (req,res) => res.send("hi profile");
 //route
 //
 app.use(cookieParser());
@@ -20,9 +19,8 @@ app.use(helmet())
 //로그정보를 찍어 주는 morgan
 app.use(morgan("dev"));
 //해당 URL이 요청되고 해당하는 함수들이 호출된다. 
-app.get("/", handleHome);
-app.get("/profile",handleProfile);
 // 라우터를 이용한 URL쪼개기
-app.get("/user", userRouter);
-
+app.use("/", globalRouter);
+app.use("/user", userRouter);
+app.use("/video", videoRouter);
 export default app;
