@@ -5,5 +5,9 @@ export const localsMiddleware = (req , res, next) => {
     res.locals.siteName = "UtUbe";
     res.locals.routes = routes;
 
+    res.locals.user = {
+        isAuth : true,
+        id:1
+    }
     next();
 }

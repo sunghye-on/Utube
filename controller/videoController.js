@@ -1,4 +1,5 @@
 import { videos } from "../db";
+import routes from "../routes";
 //렌더할 때 pageTitle을 같이 보낼 수 있다. 혹은 원하는 무엇이라도 같이 보내줄 수 있다.
 export const home = (req, res) => {
     res.render("home", { pageTitle: "Home", videos });
@@ -13,7 +14,15 @@ export const search = (req, res) => {
     } = req;
     res.render("search", { pageTitle: "Search", searchBy:searchBy, videos});  
 };
-export const upload = (req, res) => res.render("upload", { pageTitle: "Upload" });
+export const getUpload = (req, res) => res.render("upload", { pageTitle: "Upload" });
+export const postUpload = (req, res) => {
+    const {
+        body: {file, title, descriptions}
+    } = req;
+    //비디오 저장 및 업로드
+    res.redirect(routes.videoDetail(215632));
+};
+
 export const videoDetail = (req, res) => res.render("videoDetail", { pageTitle: "Video Detail" });
 export const editVideo = (req, res) => res.render("editVideo", { pageTitle: "Edit Video" });
 export const deleteVideo = (req, res) => res.render("deleteVideo", { pageTitle: "Delete Video" });
