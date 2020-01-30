@@ -11,7 +11,7 @@ export const search = (req, res) => {
         //term을 searchBy로 해준다. 즉 req.query.term === searchBy
         query : {term : searchBy}  
     } = req;
-    res.render("search", { pageTitle: "Search", searchBy:searchBy});  
+    res.render("search", { pageTitle: "Search", searchBy:searchBy, videos});  
 };
 export const upload = (req, res) => res.render("upload", { pageTitle: "Upload" });
 export const videoDetail = (req, res) => res.render("videoDetail", { pageTitle: "Video Detail" });

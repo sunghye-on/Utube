@@ -1,5 +1,8 @@
 extends layouts/main
-
-block contents  
-
-    h3 searching for #{searchBy}
+include ./mixins/videoBlock
+block contents
+    .search__header
+        h3 searching for #{searchBy}
+    .search__videos
+        each v in videos 
+            +videoBlock(v) 
