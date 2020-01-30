@@ -1,5 +1,8 @@
+import { videos } from "../db";
 //렌더할 때 pageTitle을 같이 보낼 수 있다. 혹은 원하는 무엇이라도 같이 보내줄 수 있다.
-export const home = (req, res) => res.render("home", { pageTitle: "Home" });
+export const home = (req, res) => {
+    res.render("home", { pageTitle: "Home", videos });
+};
 export const search = (req, res) => {
     //console.log(req.query.term);
     //아래 코드는 query에서 term을 가져 오는 것과 같은 코드이다. 즉 req.query.term와 같은 코드
