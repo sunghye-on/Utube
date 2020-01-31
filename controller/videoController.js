@@ -22,12 +22,20 @@ export const search = (req, res) => {
     res.render("search", { pageTitle: "Search", searchBy:searchBy, videos});  
 };
 export const getUpload = (req, res) => res.render("upload", { pageTitle: "Upload" });
-export const postUpload = (req, res) => {
+
+export const postUpload = async(req, res) => {
     const {
-        body: {file, title, descriptions}
+        body: {title, descriptions},
+        file: {path}
     } = req;
     //비디오 저장 및 업로드
-    res.redirect(routes.videoDetail(215632));
+    const newVideo = await Video.create({
+        fileUrl :path,
+        title: title,
+        description: descriptions
+    });
+    console.log(newVideo);
+    res.redirect(routes.videoDetail(newVideo.id));
 };
 
 export const videoDetail = (req, res) => res.render("videoDetail", { pageTitle: "Video Detail" });
