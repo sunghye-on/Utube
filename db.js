@@ -1,7 +1,9 @@
 import mongoose from "mongoose";
-
+import dotenv from "dotenv";
+//아래의 함수로 .env의 내용들을 가져올 수 있고 그 내용들은 process.env에 저장
+dotenv.config();
 // 몽고db의 연결은 "mongodb://localhost:포트번호/db이름" 이다
-mongoose.connect("mongodb://localhost:27017/utube", {
+mongoose.connect(process.env.MONGO_URL, {
     useNewURLParser: true,
     useFindAndModifiy: false,
     useUnifiedTopology: true
