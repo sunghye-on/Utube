@@ -1,8 +1,15 @@
-import { videos } from "../db";
 import routes from "../routes";
-//렌더할 때 pageTitle을 같이 보낼 수 있다. 혹은 원하는 무엇이라도 같이 보내줄 수 있다.
-export const home = (req, res) => {
-    res.render("home", { pageTitle: "Home", videos });
+import Video from "../models/video";
+
+//비디로를 찾기위하여 비동기 작업
+export const home = async(req, res) => {
+    try{
+        const videos = await Video.find({});
+        res.render("home", { pageTitle: "Home", videos });
+    }catch(e){
+        console.log(e);
+        res.render("home", { pageTitle: "Home", videos });
+    }
 };
 export const search = (req, res) => {
     //console.log(req.query.term);
