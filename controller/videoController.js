@@ -7,11 +7,11 @@ export const home = async (req, res) => {
     const videos = await Video.find({}).sort({ createAt: -1 });
     res.render("home", { pageTitle: "Home", videos });
   } catch (e) {
-    console.log(e);
+    console.log(`ERROR ❌ ${e}`);
     res.render("home", { pageTitle: "Home", videos });
   }
 };
-export const search = (req, res) => {
+export const search = async (req, res) => {
   //console.log(req.query.term);
   //아래 코드는 query에서 term을 가져 오는 것과 같은 코드이다. 즉 req.query.term와 같은 코드
   //해당 방법이 term = req.query.term 라고 하는 것보다 더 좋은 방식으로 정보를 가져온다.
@@ -19,7 +19,15 @@ export const search = (req, res) => {
     //term을 searchBy로 해준다. 즉 req.query.term === searchBy
     query: { term: searchBy }
   } = req;
-  res.render("search", { pageTitle: "Search", searchBy: searchBy, videos });
+  let videos = [];
+  try {
+    //regular exprssion 즉 정규 표현식을 이용하여 제목을 검색할때 포함되는 형식으로 검색한다.
+    // 그리고 옵션을 설정하는데 i 옵션은 대소문자를 구분하지 않는다는 의미
+    videos = await Video.find({ title: { $regex: searchBy, $options: "i" } });
+  } catch (e) {
+    console.log(`ERROR ❌ ${e}`);
+  }
+  res.render("search", { pageTitle: "Search", searchBy, videos });
 };
 export const getUpload = (req, res) =>
   res.render("upload", { pageTitle: "Upload" });
@@ -32,8 +40,8 @@ export const postUpload = async (req, res) => {
   //비디오 저장 및 업로드
   const newVideo = await Video.create({
     fileUrl: path,
-    title: title,
-    description: description
+    title,
+    description
   });
   console.log(newVideo);
   res.redirect(routes.videoDetail(newVideo.id));

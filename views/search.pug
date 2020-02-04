@@ -4,5 +4,7 @@ block contents
     .search__header
         h3 searching for #{searchBy}
     .search__videos
+        if videos.length === 0
+            h5 No Videos Found
         each v in videos 
             +videoBlock(v) 
