@@ -25,19 +25,64 @@ export const getUpload = (req, res) => res.render("upload", { pageTitle: "Upload
 
 export const postUpload = async(req, res) => {
     const {
-        body: {title, descriptions},
+        body: {title, description},
         file: {path}
     } = req;
     //비디오 저장 및 업로드
     const newVideo = await Video.create({
         fileUrl :path,
         title: title,
-        description: descriptions
+        description: description
     });
     console.log(newVideo);
     res.redirect(routes.videoDetail(newVideo.id));
 };
 
-export const videoDetail = (req, res) => res.render("videoDetail", { pageTitle: "Video Detail" });
-export const editVideo = (req, res) => res.render("editVideo", { pageTitle: "Edit Video" });
+export const videoDetail = async(req, res) =>{
+    //params를 이용하여 url을 가져올 수 있다. 
+    //routes.js에서 const VIDEO_DETAIL = "/:id"; 에서 :id를 해주었기 때문에 
+    //콘솔에서는 { id: '5e37e54c1bfb1f603444c78d' } 이런식으로 id의 값이 찍힌다
+    // console.log(req.params);
+    const {
+        params:{id}
+    } = req;
+    try{
+    const video = await Video.findById(id);
+    // console.log(video);
+    res.render("videoDetail", { pageTitle: "Video Detail",video });
+    }
+    catch(error){
+        console.log(`ERROR ❌ ${error}`);
+        res.redirect(routes.home);
+    }
+}
+export const getEditVideo = async(req, res) => {
+    const {
+        params:{id}
+    } = req;
+    try{
+        const video = await Video.findById(id);
+        res.render("editVideo", { pageTitle: `edit ${video.title}`, video });
+    } catch(e){
+        console.log(`ERROR ❌ ${e}`);
+        res.redirect(routes.home);
+    }
+}
+
+export const postEditVideo = async(req,res) =>{
+    const {
+        params:{id}
+    } = req;
+    try{
+        await Video.findOneAndUpdate(
+            {id},
+            {title, description}
+        );
+        res.redirect(routes.videoDetail(id))
+    } catch(e){
+        console.log(`ERROR ❌ ${e}`);
+        res.redirect(routes.home);
+    }
+
+};
 export const deleteVideo = (req, res) => res.render("deleteVideo", { pageTitle: "Delete Video" });
