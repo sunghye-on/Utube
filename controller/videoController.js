@@ -71,13 +71,11 @@ export const getEditVideo = async(req, res) => {
 
 export const postEditVideo = async(req,res) =>{
     const {
-        params:{id}
+        params:{id},
+        body:{title, description}
     } = req;
     try{
-        await Video.findOneAndUpdate(
-            {id},
-            {title, description}
-        );
+        await Video.findOneAndUpdate({ _id: id }, { title, description });
         res.redirect(routes.videoDetail(id))
     } catch(e){
         console.log(`ERROR ❌ ${e}`);
