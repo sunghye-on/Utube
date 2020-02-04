@@ -8,6 +8,7 @@ export const home = async (req, res) => {
     res.render("home", { pageTitle: "Home", videos });
   } catch (e) {
     console.log(`ERROR ❌ ${e}`);
+    // eslint-disable-next-line no-undef
     res.render("home", { pageTitle: "Home", videos });
   }
 };

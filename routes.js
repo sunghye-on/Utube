@@ -31,9 +31,9 @@ const routes = {
   users: USERS,
   // pug가 :id를 인식하지 못한다 그러므로 함수로 바꿔준다.
   userDetail: id => {
-    if (id){
+    if (id) {
       return `/users/${id}`;
-    }else {
+    } else {
       return USER_DETAIL;
     }
   },
@@ -42,21 +42,21 @@ const routes = {
   videos: VIDEOS,
   upload: UPLOAD,
   videoDetail: id => {
-    if(id){
+    if (id) {
       return `/videos/${id}`;
     } else {
       return VIDEO_DETAIL;
     }
   },
   editVideo: id => {
-    if(id) {
+    if (id) {
       return `/videos/${id}/edit`;
     } else {
       return EDIT_VIDEO;
     }
   },
   deleteVideo: id => {
-    if(id){
+    if (id) {
       return `/videos/${id}/delete`;
     } else {
       return DELETE_VIDEO;
