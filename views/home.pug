@@ -1,7 +1,7 @@
 extends layouts/main
 include ./mixins/videoBlock
 block contents  
-    .videos
+    .home-videos
         each v in videos 
             +videoBlock(v) 
             //- 전체를 보내거나 아래와 같이 원하는 정보를 보낼 수 있다
@@ -9,3 +9,7 @@ block contents
             //-     title: v.title,
             //-     description: v.description
             //- })
+            +videoBlock(v)
+            +videoBlock(v)
+            +videoBlock(v)
+            +videoBlock(v)
