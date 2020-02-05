@@ -10,7 +10,8 @@ const ENTRY_FILE = path.resolve(__dirname, "assets", "js", "main.js");
 const OUTPUT_DIR = path.join(__dirname, "static");
 //엔트리와 아웃풋을 지정하여 exports한다.
 const config = {
-  entry: ENTRY_FILE,
+  //babel/polyfill을 이용하여 브라우저에서 부족한 부분을 도와줄 수 있다.
+  entry: ["@babel/polyfill", ENTRY_FILE],
   mode: MODE,
   //모듈을 발결할 때마다 아래의 규칙(rules)를 따른다.
   module: {
@@ -37,8 +38,8 @@ const config = {
             loader: "postcss-loader",
             //옵션을 사용하여 원하는 plugin을 추가할 수 있다.(여기서는 99.5/5의 브라우저에서 호환가능)
             options: {
-              plugin() {
-                return [autoprefixer({ browsers: "cover 99.5%" })];
+              plugins() {
+                return [autoprefixer({ browserslist: "cover 99.5%" })];
               }
             }
           },
