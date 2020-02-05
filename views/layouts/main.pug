@@ -3,8 +3,10 @@ html
     head
         title #{pageTitle} | #{siteName}
         <script src="https://kit.fontawesome.com/513cbd8bd8.js" crossorigin="anonymous"></script>
+        link(rel="stylesheet", href="/static/style.css")
     body
         include ../partials/header
         main
             block contents
         include ../partials/footer
+        script(src="/static/main.js")
