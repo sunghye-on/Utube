@@ -39,7 +39,7 @@ const config = {
             //옵션을 사용하여 원하는 plugin을 추가할 수 있다.(여기서는 99.5/5의 브라우저에서 호환가능)
             options: {
               plugins() {
-                return [autoprefixer({ browserslist: "cover 99.5%" })];
+                return [autoprefixer({ overrideBrowserslist: "cover 99.5%" })];
               }
             }
           },
