@@ -6,6 +6,8 @@ import bodyParser from "body-parser";
 import passport from "passport";
 import session from "express-session";
 import dotenv from "dotenv";
+import MongoStore from "connect-mongo";
+import mongoose from "mongoose";
 import userRouter from "./routers/userRouter";
 import videoRouter from "./routers/videoRouter";
 import globalRouter from "./routers/globalRouter";
@@ -15,7 +17,8 @@ import "./passport";
 
 dotenv.config();
 const app = express();
-
+//쿠키 저장소를 만들어서 아래의 세션옵션에 추가하자
+const CookieStore = MongoStore(session);
 //앱의 보안을 돕는helmet
 app.use(helmet());
 app.set("view engine", "pug");
@@ -36,7 +39,9 @@ app.use(
     //쿠키에 들어있는 세션의ID를 암호화 하기위한 secret
     secret: process.env.COOKIE_SECRET,
     resave: true,
-    saveUninitialized: false
+    saveUninitialized: false,
+    // 몽고와 쿠키저장소와 연결을 해줘야한다.
+    store: new CookieStore({ mongooseConnection: mongoose.connection })
   })
 );
 //passport 시작을 위함
