@@ -13,4 +13,21 @@ export const localsMiddleware = (req, res, next) => {
   next();
 };
 
+// 현재상태를 확인하여 로그인이 되어있는 상태라면 바로 홈으로 보내고 아니면 다음으로~
+export const onlyPubilc = (req, res, next) => {
+  if (req.user) {
+    res.redirect(routes.home);
+  } else {
+    next();
+  }
+};
+// 위에 미들웨어랑은 반대로 로그인했을 때만 사용가능
+export const onlyprivate = (req, res, next) => {
+  if (req.user) {
+    next();
+  } else {
+    res.redirect(routes.home);
+  }
+};
+
 export const uploadVideo = multerVideo.single("videoFile");
