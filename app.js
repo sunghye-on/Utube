@@ -4,6 +4,8 @@ import helmet from "helmet";
 import cookieParser from "cookie-parser";
 import bodyParser from "body-parser";
 import passport from "passport";
+import session from "express-session";
+import dotenv from "dotenv";
 import userRouter from "./routers/userRouter";
 import videoRouter from "./routers/videoRouter";
 import globalRouter from "./routers/globalRouter";
@@ -11,6 +13,7 @@ import routes from "./routes";
 import { localsMiddleware } from "./middlewares";
 import "./passport";
 
+dotenv.config();
 const app = express();
 
 //앱의 보안을 돕는helmet
@@ -27,9 +30,18 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 //로그정보를 찍어 주는 morgan
 app.use(morgan("dev"));
+//쿠키의 세션 정보를 다룰수 있는 다양한 옵션들이 많다.
+app.use(
+  session({
+    //쿠키에 들어있는 세션의ID를 암호화 하기위한 secret
+    secret: process.env.COOKIE_SECRET,
+    resave: true,
+    saveUninitialized: false
+  })
+);
 //passport 시작을 위함
 app.use(passport.initialize());
-
+//passport를 통해서 세션을 이용(deserialization을 이용!!)
 app.use(passport.session());
 //
 app.use(localsMiddleware);
