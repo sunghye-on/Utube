@@ -1,12 +1,14 @@
+import passport from "passport";
 import routes from "../routes";
 import User from "../models/User";
+
 // 장고의 view.py와 같은 부분이다
 
 // 회원가입
 export const getJoin = (req, res) => {
   res.render("join", { pageTitle: "Join" });
 };
-export const postJoin = async (req, res) => {
+export const postJoin = async (req, res, next) => {
   //콘솔로 찍어보면 내용들을 알아 볼 수 있다.
   //console.log(req.body);
   // 만약에 body Parser가 없었다면 콘솔에서는 undifined가 나왔을 것이다.
@@ -25,20 +27,22 @@ export const postJoin = async (req, res) => {
         email
       });
       await User.register(user, password);
+      next();
     } catch (e) {
       console.log(`ERROR : 👉 ${e}`);
+      res.redirect(routes.home);
     }
-    res.redirect(routes.home);
   }
 };
 
 //로그인
 export const getLogin = (req, res) =>
   res.render("login", { pageTitle: "Login" });
-export const postLogin = (req, res) => {
-  console.log(req.body);
-  res.redirect(routes.home);
-};
+//우리가 설치한 strategy인 local를 작성해준다. 또한 옵션으로 성공/실패시 어디로 redirect할지 정할 수 있다.
+export const postLogin = passport.authenticate("local", {
+  failureRedirect: routes.login,
+  successRedirect: routes.home
+});
 
 export const logout = (req, res) => {
   //로그아웃 나중에 만들기

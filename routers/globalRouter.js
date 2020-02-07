@@ -13,7 +13,7 @@ const globalRouter = express.Router();
 
 //전역으로 보여줄 것들을 글로벌 라우터에서 다루자
 globalRouter.get(routes.join, getJoin);
-globalRouter.post(routes.join, postJoin);
+globalRouter.post(routes.join, postJoin, postLogin);
 
 globalRouter.get(routes.login, getLogin);
 globalRouter.post(routes.login, postLogin);
