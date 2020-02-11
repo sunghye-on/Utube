@@ -9,7 +9,7 @@ export const localsMiddleware = (req, res, next) => {
   res.locals.siteName = "UtUbe";
   res.locals.routes = routes;
   // passport가 user에 관한 내용들을 포함하는 대부분의 내용들을 req에서 올려주기때문
-  res.locals.user = req.user || null;
+  res.locals.loggedUser = req.user || null;
   next();
 };
 
